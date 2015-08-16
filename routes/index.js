@@ -7,8 +7,9 @@ var router = express.Router();
 var tmdbKey = process.env.TMDB_KEY;
 var tmdbUrl = 'http://api.themoviedb.org/3/';
 
-function makeUrl(ext) {
-	return tmdbUrl + ext + '?api_key=' + tmdbKey;
+function makeUrl(ext, page) {
+	var p = (page) ? '&page=' + page : '';
+	return tmdbUrl + ext + '?api_key=' + tmdbKey + p;
 }
 
 router.get('/', function(req, res, next) {
@@ -20,16 +21,28 @@ router.get('/', function(req, res, next) {
  */
 router.get('/:page', function(req, res, next) {
   var currentPage = req.params.page;
-  var movies = [];
-  request(makeUrl('movie/now_playing'), function(error, response, body) {
+  var Movies = [];
+  request(makeUrl('movie/now_playing', 1), function(error, response, body) {
+		var movies = JSON.parse(body);
+		
+		// 20 results
+		Movies = json.results;
 
-  });
+		res.render('index', { title: 'Movie get!', movies: Movies, page: currentPage});
+	});
+});
   
-  res.render('index', { title: 'Express' });
+  
 });
 
 router.get('/movie/:id', function(req, res, next) {
+	var id = req.params.id;
 
+	request(makeUrl('movie/' + id + '/credits'), function(error, response, body) {
+		var cast = movie.cast;
+
+		
+	})
 	res.render('movie', {});
 })
 
