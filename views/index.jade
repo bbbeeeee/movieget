@@ -6,8 +6,9 @@ block content
 	ul
 		for movie in movies
 			li
-				button(data-movid='#{movie.id}', class='movie-btn')= movie.original_title
-  	if page > 1
-  		a.left(href="/#{page - 1}") Previous page
-  	if page < maxPage
-  		a.right(href="/#{page + 1}") Next page
+				h3= movie.original_title
+				button(data-movid='#{movie.id}', class='movie-btn') Calculate age
+	if page > 1
+		a.left(href="/#{page - 1}") Previous page
+	if page < maxPage
+		a.right(href="/#{page + 1}") Next page

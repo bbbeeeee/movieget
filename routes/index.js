@@ -69,7 +69,7 @@ router.get('/movie/:id', function(req, res, next) {
 				callback();
 
 				if(count === cast.length - 1) {
-					res.render('movie', { avg: (ages / cast.length) });
+					res.send({avg: ages / cast.length});
 				}
 				count++;
 
