@@ -39,21 +39,27 @@ router.get('/', function(req, res, next) {
  */
 router.get('/:page', function(req, res, next) {
   var currentPage = req.params.page;
+
   var Movies = [];
-  request(makeUrl('movie/now_playing', 1), function(error, response, body) {
+  request(makeUrl('movie/now_playing', currentPage), function(error, response, body) {
 		var movies = JSON.parse(body);
 
 		// 20 results
 		Movies = movies.results;
 
-		res.render('index', { title: 'Movie get!', movies: Movies, page: currentPage, maxPage: movies.total_pages});
+		res.render('index', { 
+				title: 'Movie get!', 
+				movies: Movies, 
+				page: parseInt(currentPage), 
+				maxPage: parseInt(movies.total_pages) }
+		);
 	});
 });
 
 
 router.get('/movie/:id', function(req, res, next) {
 	var id = req.params.id;
-
+	console.log("Processing ages...");
 	request(makeUrl('movie/' + id + '/credits', null), function(error, response, body) {
 		var cast = JSON.parse(body).cast;
 		var ages = 0;
