@@ -12,6 +12,19 @@ function makeUrl(ext, page) {
 	return tmdbUrl + ext + '?api_key=' + tmdbKey + p;
 }
 
+function getAge(bday) {
+	bdayString = bday.replace('-', '');
+	var year = bdayString.substring(0,4);
+	var month = bdayString.substring(4,6);
+	var day = bdayString.substring(6,8);
+
+	var date = new Date(year, month-1, day);
+
+	var ageDifMs = Date.now() - date.getTime();
+  var ageDate = new Date(ageDifMs); // miliseconds from epoch
+  return Math.abs(ageDate.getUTCFullYear() - 1970);
+}
+
 router.get('/', function(req, res, next) {
 	res.redirect('/1');
 });
@@ -38,12 +51,18 @@ router.get('/:page', function(req, res, next) {
 router.get('/movie/:id', function(req, res, next) {
 	var id = req.params.id;
 
-	request(makeUrl('movie/' + id + '/credits'), function(error, response, body) {
+	request(makeUrl('movie/' + id + '/credits', null), function(error, response, body) {
 		var cast = movie.cast;
+		var ages = 0;
 
-		
+		async.eachSeries(cast, function(person, callback) {
+			request(makeUrl('person/' + person.id, null), function(error, response, body) {
+				ages += getAge(person.birthday);
+			});
+		});
+
+		res.send(ages / cast.length);
 	})
-	res.render('movie', {});
 })
 
 module.exports = router;
