@@ -4,7 +4,7 @@ var async = require('async');
 
 var router = express.Router();
 
-var tmdbKey = process.env.TMDB_KEY;
+var tmdbKey = process.env.TMDB;
 var tmdbUrl = 'http://api.themoviedb.org/3/';
 
 function makeUrl(ext, page) {
@@ -13,17 +13,22 @@ function makeUrl(ext, page) {
 }
 
 function getAge(bday) {
-	bdayString = bday.replace('-', '');
-	var year = bdayString.substring(0,4);
-	var month = bdayString.substring(4,6);
-	var day = bdayString.substring(6,8);
+	if(bday) {
+		bdayString = bday.replace('-', '');
+		var year = bdayString.substring(0,4);
+		var month = bdayString.substring(4,6);
+		var day = bdayString.substring(6,8);
 
-	var date = new Date(year, month-1, day);
+		var date = new Date(year, month-1, day);
 
-	var ageDifMs = Date.now() - date.getTime();
-  var ageDate = new Date(ageDifMs); // miliseconds from epoch
-  return Math.abs(ageDate.getUTCFullYear() - 1970);
+		var ageDifMs = Date.now() - date.getTime();
+	  var ageDate = new Date(ageDifMs); // miliseconds from epoch
+	  return Math.abs(ageDate.getUTCFullYear() - 1970);
+	} else {
+		return 0;
+	}
 }
+
 
 router.get('/', function(req, res, next) {
 	res.redirect('/1');
@@ -37,32 +42,42 @@ router.get('/:page', function(req, res, next) {
   var Movies = [];
   request(makeUrl('movie/now_playing', 1), function(error, response, body) {
 		var movies = JSON.parse(body);
-		
+		console.log(movies);
 		// 20 results
-		Movies = json.results;
+		Movies = movies.results;
+		console.log(Movies);
 
 		res.render('index', { title: 'Movie get!', movies: Movies, page: currentPage});
 	});
 });
-  
-  
-});
+
 
 router.get('/movie/:id', function(req, res, next) {
 	var id = req.params.id;
 
 	request(makeUrl('movie/' + id + '/credits', null), function(error, response, body) {
-		var cast = movie.cast;
+		var cast = JSON.parse(body).cast;
 		var ages = 0;
+		var count = 0;
 
 		async.eachSeries(cast, function(person, callback) {
 			request(makeUrl('person/' + person.id, null), function(error, response, body) {
+				var person = JSON.parse(body);
+
 				ages += getAge(person.birthday);
+
+				console.log(ages);
+				callback();
+
+				if(count === cast.length - 1) {
+					res.render('movie', { avg: (ages / cast.length) });
+				}
+				count++;
+
+
 			});
 		});
-
-		res.send(ages / cast.length);
 	})
-})
+});
 
 module.exports = router;

@@ -1,9 +1,9 @@
 extends layout
 
 block content
-  h1= title
+ h1= title
   p Welcome to #{title}
   ul
-  	for movie in movies
-      li
-  	    a(href="/movie/#{movie.id}")= movie.original_title
+   for movie in movies
+    li
+     a(href="/movie/#{movie.id}")= movie.original_title
