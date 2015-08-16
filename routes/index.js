@@ -42,12 +42,11 @@ router.get('/:page', function(req, res, next) {
   var Movies = [];
   request(makeUrl('movie/now_playing', 1), function(error, response, body) {
 		var movies = JSON.parse(body);
-		console.log(movies);
+
 		// 20 results
 		Movies = movies.results;
-		console.log(Movies);
 
-		res.render('index', { title: 'Movie get!', movies: Movies, page: currentPage});
+		res.render('index', { title: 'Movie get!', movies: Movies, page: currentPage, maxPage: movies.total_pages});
 	});
 });
 
