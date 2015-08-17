@@ -26,11 +26,12 @@ $(document).ready(function() {
 			},
 			error: function(x, t, m) {
         if(t==="timeout") {
-            ageHolder.html('<h5>Request timed out. Try again!</h5>')
+            ageHolder.html('<h3>Request timed out. Try again!</h3>')
         } else {
-            
+           console.log(t); 
       	}
-    	}
+    	},
+    	timeout: 20000// timeout at 20 seconds
 		})
 
 
