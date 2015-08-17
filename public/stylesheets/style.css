@@ -6,3 +6,40 @@ body {
 a {
   color: #00B7FF;
 }
+
+li {
+	text-align: center;
+
+	width: 29%;
+	margin: 2% !important;
+	min-height: 500px;
+	float: left;
+}
+
+h3 {
+	margin: 0;
+	margin-top: 10%;
+}
+
+.card-panel {
+	padding: 0;
+}
+
+
+div.top {
+	min-height: 220px;
+	padding: 15px;
+}
+
+div.middle {
+	height: 72px;
+	padding: 18px;
+}
+
+.movie-btn {
+	bottom: 0px;
+}
+
+.preloader-wrapper {
+	margin-top: 20px;
+}

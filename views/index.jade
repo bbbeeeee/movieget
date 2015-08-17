@@ -1,13 +1,18 @@
 extends layout
 
 block content
-	h1= title
-	p Welcome to #{title}
+	h1 Movie age calculator!
 	ul
 		for movie in movies
-			li
-				h3= movie.original_title
-				button(data-movid='#{movie.id}', class='movie-btn') Calculate age
+			li.card-panel
+				div.top.blue.lighten-5
+					h3= movie.original_title
+				div.middle.blue.lighten-4
+					button(data-movid='#{movie.id}', class='movie-btn btn') Calculate age
+				div.bottom
+					h5 Average age:
+					div.age
+						h2 ?
 	if page > 1
 		a.left(href="/#{page - 1}") Previous page
 	if page < maxPage
