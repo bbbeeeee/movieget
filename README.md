@@ -23,6 +23,10 @@ npm install
 npm start
 ```
 
+You'll also need to get an API key from https://www.themoviedb.org. Set it as so:
+```
+export TMDB="[API KEY]"
+```
 ## Tech
 Requires:
 - Node.js
