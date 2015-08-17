@@ -1,6 +1,7 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
 }
 
 a {
@@ -10,15 +11,15 @@ a {
 li {
 	text-align: center;
 
-	width: 29%;
-	margin: 2% !important;
+	width: 30%;
+	margin: 1.5% !important;
 	min-height: 500px;
 	float: left;
 }
 
 h3 {
 	margin: 0;
-	margin-top: 10%;
+	margin-top: 15px;
 }
 
 .card-panel {
@@ -42,4 +43,19 @@ div.middle {
 
 .preloader-wrapper {
 	margin-top: 20px;
+}
+
+.next-page {
+	float: right;
+	position: fixed;
+	right: 0;
+	top: 50%;
+}
+
+.prev-page {
+	float: left;
+	position: fixed;
+	top: 50%;
+	display: block;
+	margin-left: -50px;
 }

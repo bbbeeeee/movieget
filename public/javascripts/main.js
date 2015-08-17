@@ -2,13 +2,13 @@ $(document).ready(function() {
 	$('.movie-btn').click(function(e) {
 		var id = $(this).data('movid');
 		var that = this;
-
-		$(that)
+		var ageHolder = $(that)
 		 .parent()
 		 .parent()
 		 .children('.bottom')
-		 .children('.age')
-		 .html('<div class="preloader-wrapper big active"><div class="spinner-layer spinner-blue-only">' +
+		 .children('.age');
+		
+		 ageHolder.html('<div class="preloader-wrapper big active"><div class="spinner-layer spinner-blue-only">' +
 			     '<div class="circle-clipper left">' +
 			      	'<div class="circle"></div>' +
 			     '</div><div class="gap-patch">' +
@@ -21,13 +21,16 @@ $(document).ready(function() {
 			url: '/movie/' + id,
 			success: function(data, status, obj) {
 				var age = (data.avg === 0) ? "Not available" : data.avg.toString().substr(0, 4);
-				$(that)
-				 .parent()
-				 .parent()
-				 .children('.bottom')
-				 .children('.age')
+				ageHolder
 				 .html('<h2>' + age + '</h2>');
-			}			
+			},
+			error: function(x, t, m) {
+        if(t==="timeout") {
+            ageHolder.html('<h5>Request timed out. Try again!</h5>')
+        } else {
+            
+      	}
+    	}
 		})
 
 
